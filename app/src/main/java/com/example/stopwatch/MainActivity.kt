@@ -41,23 +41,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onStartPress() {
-        stopWatch.base = time
-        stopWatch.start()
         startStopButton.text = "Stop"
     }
 
     private fun  onStopPress() {
-        time = stopWatch.base
-        stopWatch.stop()
         startStopButton.text = "Start"
 
     }
 
     private fun onResetPress() {
         isRunning = false
-        onStopPress()
-        time = 0.toLong()
-        stopWatch.base = time
     }
 
     override fun onStart() {
