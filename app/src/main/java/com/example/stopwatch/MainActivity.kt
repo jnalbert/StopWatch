@@ -3,6 +3,7 @@ package com.example.stopwatch
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.os.SystemClock
 import android.util.Log
 import android.widget.Button
 import android.widget.Chronometer
@@ -43,15 +44,19 @@ class MainActivity : AppCompatActivity() {
     private fun onStartPress() {
         startStopButton.text = "Stop"
         stopWatch.start()
+        stopWatch.base = SystemClock.elapsedRealtime() - time
     }
 
     private fun  onStopPress() {
         startStopButton.text = "Start"
         stopWatch.stop()
+        time =  SystemClock.elapsedRealtime() - stopWatch.base
+        Log.d(TAG, "onStopPress: $time")
     }
 
     private fun onResetPress() {
         isRunning = false
+       
     }
 
     override fun onStart() {
