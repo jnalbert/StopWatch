@@ -42,11 +42,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun onStartPress() {
         startStopButton.text = "Stop"
+        stopWatch.start()
     }
 
     private fun  onStopPress() {
         startStopButton.text = "Start"
-
+        stopWatch.stop()
     }
 
     private fun onResetPress() {
