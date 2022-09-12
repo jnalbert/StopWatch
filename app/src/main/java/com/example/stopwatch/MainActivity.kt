@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate: ")
 
         wireWidgets()
+
         startStopButton.setBackgroundColor(Color.GREEN)
 
         startStopButton.setOnClickListener {
@@ -36,12 +37,10 @@ class MainActivity : AppCompatActivity() {
             else onStartPress()
             isRunning = !isRunning
         }
-
         resetButton.setOnClickListener {
             onResetPress()
             isRunning = false
         }
-
     }
 
     private fun onStartPress() {
