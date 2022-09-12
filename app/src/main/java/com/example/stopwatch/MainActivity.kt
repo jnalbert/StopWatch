@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         resetButton.setOnClickListener {
             onResetPress()
+            isRunning = false
         }
 
     }
@@ -51,12 +52,12 @@ class MainActivity : AppCompatActivity() {
         startStopButton.text = "Start"
         stopWatch.stop()
         time =  SystemClock.elapsedRealtime() - stopWatch.base
-        Log.d(TAG, "onStopPress: $time")
     }
 
     private fun onResetPress() {
-        isRunning = false
-       
+        onStopPress()
+        time = 0.toLong()
+        stopWatch.base = SystemClock.elapsedRealtime()
     }
 
     override fun onStart() {
