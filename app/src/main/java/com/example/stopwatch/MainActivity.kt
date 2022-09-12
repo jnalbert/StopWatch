@@ -1,5 +1,6 @@
 package com.example.stopwatch
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate: ")
 
         wireWidgets()
+        startStopButton.setBackgroundColor(Color.GREEN)
 
         startStopButton.setOnClickListener {
             if (isRunning) onStopPress()
@@ -44,12 +46,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun onStartPress() {
         startStopButton.text = "Stop"
+        startStopButton.setBackgroundColor(Color.RED)
         stopWatch.start()
         stopWatch.base = SystemClock.elapsedRealtime() - time
     }
 
     private fun  onStopPress() {
         startStopButton.text = "Start"
+        startStopButton.setBackgroundColor(Color.GREEN)
         stopWatch.stop()
         time =  SystemClock.elapsedRealtime() - stopWatch.base
     }
