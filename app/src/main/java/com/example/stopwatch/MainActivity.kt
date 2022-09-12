@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
+import android.widget.Button
+import android.widget.Chronometer
 
 class MainActivity : AppCompatActivity() {
 
@@ -12,10 +14,50 @@ class MainActivity : AppCompatActivity() {
         // all your "static" constants go here
         const val TAG = "MainActivity"
     }
+
+    lateinit var stopWatch : Chronometer
+    lateinit var startStopButton: Button
+    lateinit var resetButton: Button
+    var isRunning = false
+    var time = 0.toLong()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-    Log.d(TAG, "onCreate: ")
+        Log.d(TAG, "onCreate: ")
+
+        wireWidgets()
+
+        startStopButton.setOnClickListener {
+            if (isRunning) onStopPress()
+            else onStartPress()
+            isRunning = !isRunning
+        }
+
+        resetButton.setOnClickListener {
+            onResetPress()
+        }
+
+    }
+
+    private fun onStartPress() {
+        stopWatch.base = time
+        stopWatch.start()
+        startStopButton.text = "Stop"
+    }
+
+    private fun  onStopPress() {
+        time = stopWatch.base
+        stopWatch.stop()
+        startStopButton.text = "Start"
+
+    }
+
+    private fun onResetPress() {
+        isRunning = false
+        onStopPress()
+        time = 0.toLong()
+        stopWatch.base = time
     }
 
     override fun onStart() {
@@ -45,5 +87,11 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         Log.d(TAG, "onDestroy: ")
+    }
+
+    private fun wireWidgets() {
+        stopWatch = findViewById(R.id.chronometer_main_stopwatch)
+        startStopButton = findViewById(R.id.button_main_startStop)
+        resetButton = findViewById(R.id.button_main_reset)
     }
 }
