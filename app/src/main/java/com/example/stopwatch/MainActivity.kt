@@ -21,9 +21,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var stopWatch : Chronometer
     lateinit var startStopButton: Button
     lateinit var resetButton: Button
-    lateinit var lapButton: Button
-    lateinit var lapListView: ListView
-    lateinit var lapList: ArrayList<String>
     var isRunning = false
     var time = 0.toLong()
 
@@ -104,8 +101,5 @@ class MainActivity : AppCompatActivity() {
         stopWatch = findViewById(R.id.chronometer_main_stopwatch)
         startStopButton = findViewById(R.id.button_main_startStop)
         resetButton = findViewById(R.id.button_main_reset)
-        lapButton = findViewById(R.id.button_main_lap)
-        lapListView = findViewById(R.id.listView_main_lapList)
-        lapList = ArrayList<String>()
     }
 }
