@@ -9,6 +9,8 @@ import android.util.Log
 import android.widget.Button
 import android.widget.Chronometer
 import android.widget.ListView
+import com.example.stopwatch.MainActivity.Companion.STATE_IS_RUNNING
+import com.example.stopwatch.MainActivity.Companion.STATE_TIME
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,6 +18,8 @@ class MainActivity : AppCompatActivity() {
     companion object {
         // all your "static" constants go here
         const val TAG = "MainActivity"
+        const val STATE_IS_RUNNING = "sate_is_running"
+        const val STATE_TIME = "state_time"
     }
 
     lateinit var stopWatch : Chronometer
@@ -28,10 +32,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Log.d(TAG, "onCreate: ")
-
         wireWidgets()
-
-        startStopButton.setBackgroundColor(Color.GREEN)
+        // checks if a saved instance state exists and sets the variables accordingly
+        if (savedInstanceState != null) {
+            // sets the instance variables with the saved state
+            isRunning = savedInstanceState.getBoolean(STATE_IS_RUNNING)
+            time = savedInstanceState.getLong(STATE_TIME)
+            restartWatchAfterChange()
+        }
 
         startStopButton.setOnClickListener {
             // calls the correct function according to weather the stopwatch is running or not
@@ -43,6 +51,14 @@ class MainActivity : AppCompatActivity() {
             onResetPress()
             isRunning = false
         }
+    }
+
+    private fun restartWatchAfterChange() {
+        // restarts the watch after a change in time
+        stopWatch.base = SystemClock.elapsedRealtime() - time
+        // if the stopwatch was running start it again if it wasn't stop it
+        if (isRunning) onStartPress()
+        else onStopPress()
     }
 
     private fun onStartPress() {
@@ -66,6 +82,18 @@ class MainActivity : AppCompatActivity() {
         // rests the time and base value of the chronometer
         time = 0.toLong()
         stopWatch.base = SystemClock.elapsedRealtime()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        // preserves state through orientation changes
+
+        if (isRunning) time = SystemClock.elapsedRealtime() - stopWatch.base
+        // save key value pairs to the bundle
+        outState.run {
+            putBoolean(STATE_IS_RUNNING, isRunning)
+            putLong(STATE_TIME, time)
+        }
+        super.onSaveInstanceState(outState)
     }
 
     override fun onStart() {
